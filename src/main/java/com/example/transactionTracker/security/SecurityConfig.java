@@ -35,14 +35,15 @@ public class SecurityConfig {
         http.authorizeHttpRequests(configurer ->
                         configurer
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                .requestMatchers("/transazioni/**").permitAll()
-
+                                .requestMatchers("/login").permitAll()
+                                .requestMatchers("/error").permitAll()
+                                .requestMatchers("/transazioni/**").hasAnyRole("UTENTE")
+                                .anyRequest().authenticated()
                 )
-                /*
                 .formLogin(form ->
                         form
                                 .loginPage("/login")
-                                .defaultSuccessUrl("/postit/all")
+                                .defaultSuccessUrl("/transazioni/home")
                                 .loginProcessingUrl("/authenticateTheUser")
                                 .permitAll()
                 )
@@ -51,13 +52,9 @@ public class SecurityConfig {
                 )
                 .exceptionHandling(configurer ->
                         configurer.accessDeniedPage("/access-denied")
-                )
-                */
-        ;
-
+                );
 
         return http.build();
     }
-
 
 }

@@ -8,4 +8,8 @@ public interface TransazioniService {
 
     public List<Transazione> getAll();
 
+    List<Transazione> findByUserIdOrderByDataTransazione(String nome);
+
+    public void addTransazioni(String transazioni, String nomeUtente);
+
 }

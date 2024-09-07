@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface TransazioniRepository extends JpaRepository<Transazione, Long> {
 
-    List<Transazione> findByUserId(String nome);
+    List<Transazione> findByUserIdOrderByDataTransazione(String nome);
 
 
 }

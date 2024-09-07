@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -42,6 +46,11 @@
 
     <!-- nav end -->
 
+    <p class="m-0 utente">
+      Ciao,
+      <span class="utente" sec:authentication="principal.username"></span>!
+    </p>
+
     <!-- Button trigger modal -->
     <button
       type="button"
@@ -52,9 +61,12 @@
       AGGIUNGI
     </button>
 
-    <button type="button" class="btn btn-success mt-4">
-      Storico transazioni
-    </button>
+    <form action="#" th:action="@{/transazioni/ottieniTutte}" method="get">
+      <button type="submit" value="Submit" class="btn btn-success mt-4">
+        Storico transazioni
+      </button>
+    </form>
+
     <button type="button" class="btn btn-info mt-4">Altra cosa</button>
 
     <!-- Modal -->
@@ -82,8 +94,7 @@
             <form
               id="postit-form"
               action="#"
-              th:action="@{/postit/add/single}"
-              th:object="${postitSingolo}"
+              th:action="@{/transazioni/aggiungiTransazioni}"
               method="post"
             >
               <div class="form-floating">
@@ -91,6 +102,8 @@
                   class="form-control"
                   placeholder="Leave a comment here"
                   id="floatingTextarea"
+                  th:value="${strTransazioni}"
+                  name="strTransazioni"
                 ></textarea>
                 <label for="floatingTextarea"
                   >Aggiungi il testo delle tue transazioni</label
@@ -119,30 +132,24 @@
     </div>
     <!-- modal end -->
 
-    <table class="table table-striped mt-5">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="container p-0 m-0">
+      <table class="table table-striped mt-5">
+        <thead>
+          <tr>
+            <th scope="col">NOME TRANSAZIONE</th>
+            <th scope="col">DATA</th>
+            <th scope="col">IMPORTO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="tempTransazione : ${transazioni}">
+            <td th:text="*{tempTransazione.nomeTransazione}"></td>
+            <td th:text="*{tempTransazione.dataTransazione}"></td>
+            <td th:text="*{tempTransazione.importo}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <!-- Scripts -->
     <script
