@@ -14,8 +14,6 @@ public class TransazioniServiceImpl implements TransazioniService {
     private TransazioniRepository repository;
 
 
-
-
     @Override
     public List<Transazione> getAll() {
         return repository.findAll();
