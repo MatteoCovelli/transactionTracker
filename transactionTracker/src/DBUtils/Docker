@@ -1,0 +1,8 @@
+docker run --name transaction-tracker-db ^
+ -e POSTGRES_USER=utente ^
+ -e POSTGRES_DB=transaction-tracker-db ^
+ -e POSTGRES_PASSWORD=password ^
+ -e PGDATA=/var/lib/postgresql/data/transactionTrackerData ^
+ -p 5434:5432 ^
+ -v C:\Docker_Data:/var/lib/postgresql/data ^
+ postgres:14.1-alpine
