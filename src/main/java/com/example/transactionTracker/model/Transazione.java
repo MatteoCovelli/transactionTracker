@@ -26,8 +26,11 @@ public class Transazione {
     @Column(name = "data_transazione")
     private Date dataTransazione;
 
-    @Column(name = "importo")
-    private float importo;
+    @Column(name = "addebiti")
+    private float addebito;
+
+    @Column(name = "accrediti")
+    private float accredito;
 
     @Column(name = "user_id")
     private String userId;

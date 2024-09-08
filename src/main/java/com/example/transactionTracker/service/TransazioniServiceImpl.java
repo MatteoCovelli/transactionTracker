@@ -2,6 +2,7 @@ package com.example.transactionTracker.service;
 
 import com.example.transactionTracker.model.Transazione;
 import com.example.transactionTracker.repository.TransazioniRepository;
+import com.example.transactionTracker.utils.Calcoli;
 import org.apache.commons.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,49 +39,34 @@ public class TransazioniServiceImpl implements TransazioniService {
     public void addTransazioni(String transazioni, String nomeUtente) {
 
         try {
+
+            Calcoli c = Calcoli.builder().build();
+
             List<String> lista = Arrays.asList(transazioni.split("\n"));
 
-            //NOME---------------------
-            String nomeTransazione = "";
-            float addebito;
-            String imp = "";
-            String strData = "";
-            String noSpazi = "";
-            Date data = Date.from(Instant.now());
+
+
+
+
 
             for (String el : lista) {
+
+                Transazione transazione = Transazione.builder().build();
+
+
                 if (el.contains("PAGAMENTO POS")) {
+                    log.info("PAGAMENTO POS");
+                    transazione = c.pagamentoPos(el, nomeUtente);
+                } else if (el.contains("STIPENDIO/PENSIONE")) {
+                    log.info("STIPENDIO/PENSIONE");
 
-                    noSpazi = el.replaceAll(" +", " ").trim();
-                    nomeTransazione = noSpazi.substring(noSpazi.indexOf("POS")).trim();
-                    nomeTransazione = nomeTransazione.substring(20, nomeTransazione.indexOf("ITA OPERAZIONE")).trim();
-
-                    addebito = Float.parseFloat(noSpazi.substring(22, noSpazi.indexOf("PAGAMENTO POS") - 1).trim().replace(",", "."));
-
-                    strData = noSpazi.substring(0, 10).trim().replaceAll("/", "-");
-                    SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-                    try {
-                        data = formato.parse(strData);
-                    } catch (ParseException e) {
-                        System.out.println("Errore durante il parsing della data");
-                        e.printStackTrace();
-                    }
-
-                    log.info(nomeTransazione);
-                    log.info(addebito + "");
-                    log.info(data + "");
-
-                    Transazione transazione = Transazione.builder()
-                            .nomeTransazione(nomeTransazione)
-                            .dataTransazione(data)
-                            .importo(addebito)
-                            .userId(nomeUtente)
-                            .build();
-
-                    repository.save(transazione);
 
                 }
-            }
+
+
+                log.info("SALVO TRANSAZIONE");
+                repository.save(transazione);
+            }//fine for
 
         } catch (Exception exception) {
             log.error("ERRORE: Formato dati in input non corretto");

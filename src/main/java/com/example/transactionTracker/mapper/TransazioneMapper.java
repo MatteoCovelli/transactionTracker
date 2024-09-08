@@ -9,7 +9,7 @@ public class TransazioneMapper {
         return Transazione.builder()
                 .nomeTransazione(transazioniDTO.getNomeTransazione())
                 .dataTransazione(transazioniDTO.getDataTransazione())
-                .importo(transazioniDTO.getImporto())
+                .addebito(transazioniDTO.getAddebito())
                 .userId(transazioniDTO.getUserId())
                 .build();
     }

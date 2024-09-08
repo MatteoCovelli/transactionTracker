@@ -138,14 +138,16 @@
           <tr>
             <th scope="col">NOME TRANSAZIONE</th>
             <th scope="col">DATA</th>
-            <th scope="col">IMPORTO</th>
+            <th scope="col">ADDEBITO</th>
+            <th scope="col">ACCREDITO</th>
           </tr>
         </thead>
         <tbody>
           <tr th:each="tempTransazione : ${transazioni}">
             <td th:text="*{tempTransazione.nomeTransazione}"></td>
             <td th:text="*{tempTransazione.dataTransazione}"></td>
-            <td th:text="*{tempTransazione.importo}"></td>
+            <td th:text="*{tempTransazione.addebito}"></td>
+            <td th:text="*{tempTransazione.accredito}"></td>
           </tr>
         </tbody>
       </table>

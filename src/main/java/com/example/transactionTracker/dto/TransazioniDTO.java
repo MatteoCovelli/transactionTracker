@@ -15,7 +15,9 @@ public class TransazioniDTO {
 
     private Date dataTransazione;
 
-    private float importo;
+    private float addebito;
+
+    private float accredito;
 
     private String userId;
 

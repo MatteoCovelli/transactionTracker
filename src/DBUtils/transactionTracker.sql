@@ -35,23 +35,10 @@ create table transazioni
     id bigint primary key default nextval ('seq_transazioni'),
     nome_transazione varchar,
     data_transazione date,
-    importo float,
+    addebiti float default 0,
+    accrediti float default 0;
     user_id varchar(50) references users(user_id)
 );
-
-
-
-
-insert into transazioni(nome_transazione, data_transazione, importo, user_id)
-values
-    ('transazione di prova 2', '07-09-2024', 40.50, 'luca' );
-
-
-insert into transazioni(nome_transazione, data_transazione, importo, user_id)
-values
-    ('transazione', '07-09-2024', 40.50, 'mary' );
-
-
 
 
 
