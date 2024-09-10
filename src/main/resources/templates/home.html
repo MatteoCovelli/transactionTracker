@@ -14,6 +14,7 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <link th:href="@{/css/home.css}" type="text/css" rel="stylesheet" />
   </head>
   <body>
     <!-- navbar -->
@@ -51,23 +52,30 @@
       <span class="utente" sec:authentication="principal.username"></span>!
     </p>
 
-    <!-- Button trigger modal -->
-    <button
-      type="button"
-      class="btn btn-primary mt-4"
-      data-bs-toggle="modal"
-      data-bs-target="#exampleModal"
-    >
-      AGGIUNGI
-    </button>
-
-    <form action="#" th:action="@{/transazioni/ottieniTutte}" method="get">
-      <button type="submit" value="Submit" class="btn btn-success mt-4">
-        Storico transazioni
+    <div class="container p-0 ms-1 mb-3 d-flex">
+      <!-- Button trigger modal -->
+      <button
+        type="button"
+        class="btn btn-primary mt-4 me-3"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        AGGIUNGI
       </button>
-    </form>
 
-    <button type="button" class="btn btn-info mt-4">Altra cosa</button>
+      <form
+        action="#"
+        th:action="@{/transazioni/ottieniTutte}"
+        method="get"
+        class="me-3"
+      >
+        <button type="submit" value="Submit" class="btn btn-success mt-4">
+          Storico transazioni
+        </button>
+      </form>
+
+      <button type="button" class="btn btn-info mt-4">Altra cosa</button>
+    </div>
 
     <!-- Modal -->
     <div
@@ -132,7 +140,26 @@
     </div>
     <!-- modal end -->
 
-    <div class="container p-0 m-0">
+    <div class="container p-0 m-1 contenitore-upload">
+      <form
+        enctype="multipart/form-data"
+        th:action="@{/transazioni/addTransazioniFromFile}"
+        method="post"
+      >
+        <div class="input-group mb-3">
+          <input
+            class="form-control"
+            name="file"
+            type="file"
+            id="importFile"
+            accept=".txt"
+          />
+          <button type="submit" class="btn btn-warning">Upload</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="container p-0 m-1">
       <table class="table table-striped mt-5">
         <thead>
           <tr>
