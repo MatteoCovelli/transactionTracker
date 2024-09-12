@@ -3,6 +3,7 @@ package com.example.transactionTracker.controller;
 
 import com.example.transactionTracker.model.Transazione;
 
+import com.example.transactionTracker.service.EmailService;
 import com.example.transactionTracker.service.TransazioniServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -25,6 +26,9 @@ public class TransazioniController {
     private static final Logger log = LoggerFactory.getLogger(TransazioniController.class);
     @Autowired
     private final TransazioniServiceImpl service;
+
+    @Autowired
+    private final EmailService emailService;
 
     @GetMapping("/home")
     public String showHome(Model theModel) {
@@ -65,6 +69,13 @@ public class TransazioniController {
         } catch (Exception e) {
             log.error("ERRORE UPLOAD FILE");
         }
+
+        return "home";
+    }
+
+    @GetMapping("/sendEmail")
+    public String sendEmail() {
+        emailService.sendEmail("aChiInvioLaMail@gmail.com", "Email da springboot", "Ciao questo è il body della mail di spring boot");
 
         return "home";
     }
