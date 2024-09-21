@@ -35,8 +35,15 @@ public class Calcoli {
         return data;
     }
 
-    public float getAddebitoFromString(String noSpazi) {
-        return Float.parseFloat(noSpazi.substring(22, noSpazi.indexOf("PAGAMENTO POS") - 1).trim().replace(",", "."));
+    public float getAddebitoFromString(String noSpazi, String descrizione) {
+        return Float.parseFloat(noSpazi.substring(22, noSpazi.indexOf(descrizione) - 1).trim().replace(".","").replace(",","."));
+    }
+
+    public float getAccreditoFromString(String noSpazi, String descrizione){
+
+        return Float.parseFloat(noSpazi.substring(21, noSpazi.indexOf(descrizione)).trim().replace(".","").replace(",","."));
+
+
     }
 
     public Transazione pagamentoPos(String el, String nomeUtente) {
@@ -50,16 +57,82 @@ public class Calcoli {
         return Transazione.builder()
                 .nomeTransazione(nomeTransazione)
                 .dataTransazione(getDataFromString(noSpazi))
-                .addebito(getAddebitoFromString(noSpazi))
+                .addebito(getAddebitoFromString(noSpazi, "PAGAMENTO POS"))
                 .userId(nomeUtente)
                 .build();
     }
 
 
-//    public Transazione stipendio(String el, String nomeUtente) {
-//
-//
-//    }
+    public Transazione stipendio(String el, String nomeUtente) {
+
+        String noSpazi = el.replaceAll(" +", " ").trim();
+
+        return Transazione.builder()
+                .nomeTransazione("STIPENDIO")
+                .dataTransazione(getDataFromString(noSpazi))
+                .accredito(getAccreditoFromString(noSpazi, "STIPENDIO/PENSIONE"))
+                .userId(nomeUtente)
+                .build();
+    }
+
+    public Transazione pedaggio(String el, String nomeUtente) {
+
+        String noSpazi = el.replaceAll(" +", " ").trim();
+        String nomeTransazione = noSpazi.substring(noSpazi.indexOf("PEDAGGIO AUTOSTRADALE")).trim();
+        nomeTransazione = nomeTransazione.substring(38, nomeTransazione.indexOf("ITA OPERAZIONE")).trim();
+
+        return Transazione.builder()
+                .nomeTransazione("PEDAGGIO AUTOSTRADALE " + nomeTransazione)
+                .dataTransazione(getDataFromString(noSpazi))
+                .addebito(getAddebitoFromString(noSpazi, "PEDAGGIO AUTOSTRADALE"))
+                .userId(nomeUtente)
+                .build();
+    }
+
+    public Transazione canoneMensile(String el, String nomeUtente) {
+        String noSpazi = el.replaceAll(" +", " ").trim();
+        String nomeTransazione = noSpazi.substring(noSpazi.indexOf("CANONE MENSILE CONTO")).trim();
+        nomeTransazione = nomeTransazione.substring(nomeTransazione.indexOf("DI")+2).trim();
+
+        return Transazione.builder()
+                .nomeTransazione("CANONE MENSILE " + nomeTransazione)
+                .dataTransazione(getDataFromString(noSpazi))
+                .addebito(getAddebitoFromString(noSpazi, "CANONE MENSILE CONTO"))
+                .userId(nomeUtente)
+                .build();
+    }
+
+    public Transazione accreditoCanone(String el, String nomeUtente) {
+        String noSpazi = el.replaceAll(" +", " ").trim();
+        String nomeTransazione = noSpazi.substring(noSpazi.indexOf("ACCREDITO PER RIDUZIONE CANONE")).trim();
+        nomeTransazione = nomeTransazione.substring(nomeTransazione.indexOf("AL PERIODO DI")+13).trim();
+
+        return Transazione.builder()
+                .nomeTransazione("ACCREDITO PER RIDUZIONE CANONE " + nomeTransazione)
+                .dataTransazione(getDataFromString(noSpazi))
+                .accredito(getAccreditoFromString(noSpazi, "ACCREDITO PER RIDUZIONE CANONE"))
+                .userId(nomeUtente)
+                .build();
+
+    }
+
+    public Transazione rataPolizza(String el, String nomeUtente) {
+
+        String noSpazi = el.replaceAll(" +", " ").trim();
+
+        return Transazione.builder()
+                .nomeTransazione("RATA POLIZZA")
+                .dataTransazione(getDataFromString(noSpazi))
+                .addebito(getAddebitoFromString(noSpazi, "RATA POLIZZA"))
+                .userId(nomeUtente)
+                .build();
+
+    }
+
+
+
+
+
 
 
 }

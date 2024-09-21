@@ -45,8 +45,28 @@ public class TransazioniServiceImpl implements TransazioniService {
                     transazione = c.pagamentoPos(el, nomeUtente);
                 } else if (el.contains("STIPENDIO/PENSIONE")) {
                     log.info("STIPENDIO/PENSIONE");
+                    transazione = c.stipendio(el, nomeUtente);
+
+                } else if (el.contains("PEDAGGIO AUTOSTRADALE")) {
+                    log.info("PEDAGGIO AUTOSTRADALE");
+                    transazione = c.pedaggio(el, nomeUtente);
+                } else if (el.contains("CANONE MENSILE CONTO")) {
+                    log.info("CANONE MENSILE CONTO");
+                    transazione = c.canoneMensile(el, nomeUtente);
+
+                } else if (el.contains("ACCREDITO PER RIDUZIONE CANONE")) {
+                    log.info("ACCREDITO PER RIDUZIONE CANONE");
+                    transazione = c.accreditoCanone(el, nomeUtente);
+
+                } else if (el.contains("RATA POLIZZA")) {
+                    log.info("RATA POLIZZA");
+                    transazione = c.rataPolizza(el, nomeUtente);
 
                 }
+
+
+
+
 
                 if (transazione.getNomeTransazione() != null) {
                     log.info("SALVO TRANSAZIONE");
