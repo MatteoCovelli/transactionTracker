@@ -29,7 +29,6 @@ public class TransazioniController {
     @GetMapping("/home")
     public String showHome(Model theModel) {
         return "home";
-
     }
 
     @GetMapping("/ottieniTutte")
@@ -68,6 +67,5 @@ public class TransazioniController {
 
         return "home";
     }
-
 
 }

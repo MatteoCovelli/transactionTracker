@@ -43,6 +43,7 @@ public class TransazioniServiceImpl implements TransazioniService {
                 if (el.contains("PAGAMENTO POS")) {
                     log.info("PAGAMENTO POS");
                     transazione = c.pagamentoPos(el, nomeUtente);
+
                 } else if (el.contains("STIPENDIO/PENSIONE")) {
                     log.info("STIPENDIO/PENSIONE");
                     transazione = c.stipendio(el, nomeUtente);
@@ -50,6 +51,7 @@ public class TransazioniServiceImpl implements TransazioniService {
                 } else if (el.contains("PEDAGGIO AUTOSTRADALE")) {
                     log.info("PEDAGGIO AUTOSTRADALE");
                     transazione = c.pedaggio(el, nomeUtente);
+
                 } else if (el.contains("CANONE MENSILE CONTO")) {
                     log.info("CANONE MENSILE CONTO");
                     transazione = c.canoneMensile(el, nomeUtente);
@@ -62,22 +64,25 @@ public class TransazioniServiceImpl implements TransazioniService {
                     log.info("RATA POLIZZA");
                     transazione = c.rataPolizza(el, nomeUtente);
 
+                } else if (el.contains("POSTAGIRO A")) {
+                    log.info("POSTAGIRO");
+                    transazione = c.postagiro(el, nomeUtente);
+
+                } else if (el.contains("ADDEBITO DIRETTO")) {
+                    log.info("ADDEBITO DIRETTO");
+                    transazione = c.addebitoDiretto(el, nomeUtente);
+
                 }
-
-
-
-
 
                 if (transazione.getNomeTransazione() != null) {
                     log.info("SALVO TRANSAZIONE");
                     repository.save(transazione);
                 }
 
-            } //fine for
+            }
 
         } catch (Exception exception) {
             log.error("ERRORE: Formato dati in input non corretto");
         }
     }
-
 }

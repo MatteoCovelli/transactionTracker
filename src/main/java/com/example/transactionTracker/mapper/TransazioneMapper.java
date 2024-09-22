@@ -5,7 +5,7 @@ import com.example.transactionTracker.model.Transazione;
 
 public class TransazioneMapper {
 
-    public Transazione toEntity(TransazioniDTO transazioniDTO){
+    public Transazione toEntity(TransazioniDTO transazioniDTO) {
         return Transazione.builder()
                 .nomeTransazione(transazioniDTO.getNomeTransazione())
                 .dataTransazione(transazioniDTO.getDataTransazione())

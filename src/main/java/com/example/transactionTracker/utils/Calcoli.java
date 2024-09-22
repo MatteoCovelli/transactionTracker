@@ -36,12 +36,12 @@ public class Calcoli {
     }
 
     public float getAddebitoFromString(String noSpazi, String descrizione) {
-        return Float.parseFloat(noSpazi.substring(22, noSpazi.indexOf(descrizione) - 1).trim().replace(".","").replace(",","."));
+        return Float.parseFloat(noSpazi.substring(22, noSpazi.indexOf(descrizione) - 1).trim().replace(".", "").replace(",", "."));
     }
 
-    public float getAccreditoFromString(String noSpazi, String descrizione){
+    public float getAccreditoFromString(String noSpazi, String descrizione) {
 
-        return Float.parseFloat(noSpazi.substring(21, noSpazi.indexOf(descrizione)).trim().replace(".","").replace(",","."));
+        return Float.parseFloat(noSpazi.substring(21, noSpazi.indexOf(descrizione)).trim().replace(".", "").replace(",", "."));
 
 
     }
@@ -92,7 +92,7 @@ public class Calcoli {
     public Transazione canoneMensile(String el, String nomeUtente) {
         String noSpazi = el.replaceAll(" +", " ").trim();
         String nomeTransazione = noSpazi.substring(noSpazi.indexOf("CANONE MENSILE CONTO")).trim();
-        nomeTransazione = nomeTransazione.substring(nomeTransazione.indexOf("DI")+2).trim();
+        nomeTransazione = nomeTransazione.substring(nomeTransazione.indexOf("DI") + 2).trim();
 
         return Transazione.builder()
                 .nomeTransazione("CANONE MENSILE " + nomeTransazione)
@@ -105,7 +105,7 @@ public class Calcoli {
     public Transazione accreditoCanone(String el, String nomeUtente) {
         String noSpazi = el.replaceAll(" +", " ").trim();
         String nomeTransazione = noSpazi.substring(noSpazi.indexOf("ACCREDITO PER RIDUZIONE CANONE")).trim();
-        nomeTransazione = nomeTransazione.substring(nomeTransazione.indexOf("AL PERIODO DI")+13).trim();
+        nomeTransazione = nomeTransazione.substring(nomeTransazione.indexOf("AL PERIODO DI") + 13).trim();
 
         return Transazione.builder()
                 .nomeTransazione("ACCREDITO PER RIDUZIONE CANONE " + nomeTransazione)
@@ -113,7 +113,6 @@ public class Calcoli {
                 .accredito(getAccreditoFromString(noSpazi, "ACCREDITO PER RIDUZIONE CANONE"))
                 .userId(nomeUtente)
                 .build();
-
     }
 
     public Transazione rataPolizza(String el, String nomeUtente) {
@@ -126,13 +125,35 @@ public class Calcoli {
                 .addebito(getAddebitoFromString(noSpazi, "RATA POLIZZA"))
                 .userId(nomeUtente)
                 .build();
-
     }
 
+    public Transazione postagiro(String el, String nomeUtente) {
 
+        String noSpazi = el.replaceAll(" +", " ").trim();
+        String nomeTransazione = noSpazi.substring(noSpazi.indexOf("POSTAGIRO A")).trim();
+        nomeTransazione = nomeTransazione.substring(nomeTransazione.indexOf("POSTAGIRO A") + 12, nomeTransazione.indexOf("TRN")).trim();
 
+        return Transazione.builder()
+                .nomeTransazione("POSTAGIRO A " + nomeTransazione)
+                .dataTransazione(getDataFromString(noSpazi))
+                .addebito(getAddebitoFromString(noSpazi, "POSTAGIRO A"))
+                .userId(nomeUtente)
+                .build();
+    }
 
+    public Transazione addebitoDiretto(String el, String nomeUtente) {
 
+        String noSpazi = el.replaceAll(" +", " ").trim();
+        String nomeTransazione = noSpazi.substring(noSpazi.indexOf("ADDEBITO DIRETTO")).trim();
+        nomeTransazione = nomeTransazione.substring(nomeTransazione.indexOf("ADDEBITO DIRETTO") + 16, nomeTransazione.indexOf("ADDEBITO DIRETTO") + 30).trim();
+
+        return Transazione.builder()
+                .nomeTransazione("ADDEBITO DIRETTO " + nomeTransazione)
+                .dataTransazione(getDataFromString(noSpazi))
+                .addebito(getAddebitoFromString(noSpazi, "ADDEBITO DIRETTO"))
+                .userId(nomeUtente)
+                .build();
+    }
 
 
 }
