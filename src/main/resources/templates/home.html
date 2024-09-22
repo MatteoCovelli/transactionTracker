@@ -15,67 +15,47 @@
       crossorigin="anonymous"
     />
     <link th:href="@{/css/home.css}" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/css/home.css" />
+
+    <!-- font start -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- --- -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jacquarda+Bastarda+9&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- font end -->
   </head>
   <body>
     <!-- navbar -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">TransactionTracker</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+
+    <nav class="navbar bg-body-tertiary p-3 m-0 mb-5 pe-4 ps-4">
+      <div
+        class="container-fluid p-0 m-0 d-flex justify-content-between align-items-center"
+      >
+        <a class="navbar-brand p-0 m-0" href="#"
+          ><h2 class="p-0 m-0 titolo">TTracker</h2></a
         >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Features</a>
-            </li>
-          </ul>
+        <div class="p-0 m-0 d-flex justify-content-start align-items-center">
+          <span sec:authentication="principal.username" class="me-3 utente"
+            >Luca</span
+          >
+          <a class="navbar-brand p-0 m-0 esco" href="#"
+            ><ion-icon
+              name="log-out-outline"
+              size="large"
+              class="p-0 m-0"
+            ></ion-icon
+          ></a>
         </div>
       </div>
     </nav>
-
     <!-- nav end -->
-
-    <p class="m-0 utente">
-      Ciao,
-      <span class="utente" sec:authentication="principal.username"></span>!
-    </p>
-
-    <div class="container p-0 ms-1 mb-3 d-flex">
-      <!-- Button trigger modal -->
-      <button
-        type="button"
-        class="btn btn-primary mt-4 me-3"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        AGGIUNGI
-      </button>
-
-      <form
-        action="#"
-        th:action="@{/transazioni/ottieniTutte}"
-        method="get"
-        class="me-3"
-      >
-        <button type="submit" value="Submit" class="btn btn-success mt-4">
-          Storico transazioni
-        </button>
-      </form>
-
-      <button type="button" class="btn btn-info mt-4">Altra cosa</button>
-    </div>
 
     <!-- Modal -->
     <div
@@ -140,7 +120,7 @@
     </div>
     <!-- modal end -->
 
-    <div class="container p-0 m-1 contenitore-upload">
+    <!--     <div class="container p-0 m-1 contenitore-upload">
       <form
         enctype="multipart/form-data"
         th:action="@{/transazioni/addTransazioniFromFile}"
@@ -157,30 +137,132 @@
           <button type="submit" class="btn btn-warning">Upload</button>
         </div>
       </form>
+    </div> -->
+
+    <div
+      class="container p-0 m-1 d-flex justify-content-start align-items-center"
+    >
+      <form
+        action="#"
+        th:action="@{/transazioni/ottieniTutte}"
+        method="get"
+        class="me-2"
+      >
+        <button type="submit" value="Submit" class="btn p-1 ps-2 pe-2 storico">
+          <div class="d-flex justify-content-start align-items-center p-0 m-0">
+            <ion-icon
+              name="library-outline"
+              size="small"
+              class="pe-2"
+            ></ion-icon>
+            <p class="p-0 m-0">Storico</p>
+          </div>
+        </button>
+      </form>
+
+      <button
+        type="button"
+        class="btn p-2 aggiungi d-flex justify-content-start align-items-center"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        <ion-icon name="add-outline" size="small" class="p-0 m-0"></ion-icon>
+      </button>
+
+      <!-- file start -->
+      <div
+        class="container p-0 m-0 ms-2 contenitore-upload d-flex justify-content-start align-items-center"
+      >
+        <form
+          enctype="multipart/form-data"
+          th:action="@{/transazioni/addTransazioniFromFile}"
+          method="post"
+        >
+          <div class="input-group">
+            <input
+              class="form-control"
+              name="file"
+              type="file"
+              id="importFile"
+              accept=".txt"
+            />
+            <button type="submit" class="btn btn-warning">Upload</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- file end -->
     </div>
 
     <div class="container p-0 m-1">
-      <table class="table table-striped mt-5">
+      <table class="table mt-4">
         <thead>
           <tr>
-            <th scope="col">NOME TRANSAZIONE</th>
-            <th scope="col">DATA</th>
-            <th scope="col">ADDEBITO</th>
-            <th scope="col">ACCREDITO</th>
+            <th scope="col" class="align-middle ps-4 rounded-start-4">
+              <div class="d-flex justify-content-start align-items-center">
+                <ion-icon
+                  name="document-text-outline"
+                  size="small"
+                  class="pe-2"
+                ></ion-icon>
+                <p>Nome</p>
+              </div>
+            </th>
+            <th scope="col" class="align-middle">
+              <div class="d-flex justify-content-start align-items-center">
+                <ion-icon
+                  name="calendar-outline"
+                  size="small"
+                  class="pe-2"
+                ></ion-icon>
+                <p>Data</p>
+              </div>
+            </th>
+            <th scope="col" class="align-middle">
+              <div class="d-flex justify-content-start align-items-center">
+                <ion-icon
+                  name="card-outline"
+                  size="small"
+                  class="pe-2"
+                ></ion-icon>
+                <p>Addebito</p>
+              </div>
+            </th>
+            <th scope="col" class="align-middle rounded-end-4">
+              <div class="d-flex justify-content-start align-items-center">
+                <ion-icon
+                  name="wallet-outline"
+                  size="small"
+                  class="pe-2"
+                ></ion-icon>
+                <p>Accredito</p>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr th:each="tempTransazione : ${transazioni}">
-            <td th:text="*{tempTransazione.nomeTransazione}"></td>
-            <td th:text="*{tempTransazione.dataTransazione}"></td>
-            <td th:text="*{tempTransazione.addebito}"></td>
-            <td th:text="*{tempTransazione.accredito}"></td>
+            <td
+              th:text="*{tempTransazione.nomeTransazione}"
+              class="ps-4 pt-2 pb-2"
+            >
+              sss
+            </td>
+            <td th:text="*{tempTransazione.dataTransazione}" class="pt-2 pb-2">
+              sssaa
+            </td>
+            <td th:text="*{tempTransazione.addebito}" class="pt-2 pb-2">
+              asdas
+            </td>
+            <td th:text="*{tempTransazione.accredito}" class="pt-2 pb-2">
+              ssasdada
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <!-- Scripts -->
+    <!-- Scripts start -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -192,10 +274,21 @@
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
       crossorigin="anonymous"
     ></script>
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
       integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
       crossorigin="anonymous"
     ></script>
+
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+    <!-- Scripts end -->
   </body>
 </html>
